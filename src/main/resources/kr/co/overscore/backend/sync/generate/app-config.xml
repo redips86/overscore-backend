@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<params>		
+		<syncMultiThread>false</syncMultiThread>
+		<waitCount>1000</waitCount>
+		<maxThreadCount>10</maxThreadCount>
+		<processCountPerThread>20</processCountPerThread>
+		<waitTime>1000</waitTime>		
+	</params>
+
+	<dataSource>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<jdbcUrl></jdbcUrl>
+		<username></username>
+		<password></password>
+		<poolMaximumActiveConnections>30</poolMaximumActiveConnections>
+		<poolMaximumIdleConnections>10</poolMaximumIdleConnections>
+	</dataSource>
+</config>
+
+
+	
+	

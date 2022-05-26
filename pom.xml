@@ -1,0 +1,295 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>kr.co</groupId>
+  <artifactId>overscore_backend</artifactId>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	<inst>${basedir}/src/main/assembly/inst.xml</inst>
+  </properties>
+  
+
+	<profiles>
+		<profile>
+			<id>linux</id>
+			<properties>
+				<inst>${basedir}/src/main/assembly/inst.xml</inst>
+			</properties>
+		</profile>
+		<profile>
+			<id>windows</id>
+			<properties>
+				<inst>${basedir}/src/main/assembly/inst_windows.xml</inst>
+			</properties>
+		</profile>
+	</profiles>
+  	
+  <dependencies>
+  	<dependency>
+  		<groupId>com.prismweaver.backend</groupId>
+  		<artifactId>backendframework</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.mybatis</groupId>
+  		<artifactId>mybatis</artifactId>
+  		<version>3.2.8</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>mysql</groupId>
+  		<artifactId>mysql-connector-java</artifactId>
+  		<version>5.1.34</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>commons-dbcp</groupId>
+  		<artifactId>commons-dbcp</artifactId>
+  		<version>1.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>commons-configuration</groupId>
+  		<artifactId>commons-configuration</artifactId>
+  		<version>1.6</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>log4j</groupId>
+  		<artifactId>log4j</artifactId>
+  		<version>1.2.17</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jsoup</groupId>
+  		<artifactId>jsoup</artifactId>
+  		<version>1.10.2</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.sf.json-lib</groupId>
+  		<artifactId>json-lib</artifactId>
+  		<version>2.4</version>
+  		<classifier>jdk15</classifier>
+  	</dependency>
+  </dependencies>
+  <build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.3.1</version>
+				<executions>
+					<execution>
+						<id>default-install</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>false</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<!-- =============================================================== -->
+					<!-- 기본 패키지는 jar로 만들지 않는다.============================================= -->
+					<!-- =============================================================== -->
+					<execution>
+						<id>default-jar</id>
+						<phase>none</phase>
+					</execution>
+
+					<!-- =============================================================== -->
+					<!-- SyncGenerator =============================================== -->
+					<!-- =============================================================== -->
+					<execution>
+						<id>SyncGenerator</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<finalName>SyncGenerator</finalName>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>./lib/</classpathPrefix>
+									<mainClass>
+										kr.co.overscore.backend.sync.generate.SyncGenerator
+									</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Class-Path>./</Class-Path>
+								</manifestEntries>
+							</archive>
+							<excludes>
+								<exclude>**/app-config.xml</exclude>
+								<exclude>**/log4j.xml</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					
+					<!-- =============================================================== -->
+					<!-- SyncCollector =============================================== -->
+					<!-- =============================================================== -->
+					<execution>
+						<id>SyncCollector</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<finalName>SyncCollector</finalName>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>./lib/</classpathPrefix>
+									<mainClass>
+										kr.co.overscore.backend.sync.collect.SyncCollector
+									</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Class-Path>./</Class-Path>
+								</manifestEntries>
+							</archive>
+							<excludes>
+								<exclude>**/app-config.xml</exclude>
+								<exclude>**/log4j.xml</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					
+					<!-- =============================================================== -->
+					<!-- DeleteProcessor =============================================== -->
+					<!-- =============================================================== -->
+					<execution>
+						<id>DeleteProcessor</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<finalName>DeleteProcessor</finalName>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>./lib/</classpathPrefix>
+									<mainClass>
+										kr.co.overscore.backend.delete.DeleteProcessor
+									</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Class-Path>./</Class-Path>
+								</manifestEntries>
+							</archive>
+							<excludes>
+								<exclude>**/app-config.xml</exclude>
+								<exclude>**/log4j.xml</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					
+					<!-- =============================================================== -->
+					<!-- PriorCollector =============================================== -->
+					<!-- =============================================================== -->
+					<execution>
+						<id>PriorCollector</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<finalName>PriorCollector</finalName>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>./lib/</classpathPrefix>
+									<mainClass>
+										kr.co.overscore.backend.sync.prior.PriorCollector
+									</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Class-Path>./</Class-Path>
+								</manifestEntries>
+							</archive>
+							<excludes>
+								<exclude>**/app-config.xml</exclude>
+								<exclude>**/log4j.xml</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+
+					
+					
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-5</version>
+				<configuration>
+					<finalName>overscore_backend</finalName>
+					<descriptors>
+						<descriptor>${inst}</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+  <parent>
+  	<groupId>com.prismweaver.build</groupId>
+  	<artifactId>overscore_backend_build</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </parent>
+</project>

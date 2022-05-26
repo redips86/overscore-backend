@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="deleteMapper">
+
+	<select id="selectOldUserList" statementType="CALLABLE" resultType="kr.co.overscore.backend.model.UserModel">
+		<![CDATA[
+		SELECT	USER_ID userId, 
+					CONCAT(USER_NAME, "#", USER_TAG) userName
+		FROM 	USER
+		WHERE	IS_FAKE = 0
+		AND		IFNULL(UPD_DATE, INS_DATE) < DATE_ADD(NOW(),INTERVAL -30 DAY)
+		ORDER BY USER_ID
+		;
+		]]>
+	</select>
+	
+	<update id="deleteOldUser" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{ call SP_OS_DEL_USER
+			(
+				#{userId, mode=IN, jdbcType=INTEGER}
+			)
+		}
+	</update>
+	
+</mapper>

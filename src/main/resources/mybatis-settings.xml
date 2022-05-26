@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="defaultExecutorType" value="REUSE" />
+		<setting name="defaultStatementTimeout" value="30" />
+	</settings>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver.encoding" value="UTF8" />
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${jdbc_url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+				<property name="poolMaximumActiveConnections" value="${max_active_connections}" />
+				<property name="poolMaximumIdleConnections" value="${max_idle_connections}" />
+				<property name="poolPingQuery" value="select 1"/>
+				<property name="poolPingEnabled" value="true"/>
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="kr/co/overscore/backend/persistence/CacheMapper.xml" />
+		<mapper resource="kr/co/overscore/backend/persistence/CommonMapper.xml" />
+		<mapper resource="kr/co/overscore/backend/persistence/SyncMapper.xml" />
+		<mapper resource="kr/co/overscore/backend/persistence/DeleteMapper.xml" />
+	</mappers>
+</configuration>
+

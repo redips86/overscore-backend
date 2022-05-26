@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="syncMapper">
+
+	<select id="upsertUser" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="kr.co.overscore.backend.model.UserModel">
+		{ call SP_OS_UPS_USER
+			(
+				#{userName, mode=IN, jdbcType=VARCHAR},
+				#{userTag, mode=IN, jdbcType=VARCHAR},
+				#{server, mode=IN, jdbcType=VARCHAR},
+				#{rankImage, mode=IN, jdbcType=VARCHAR},
+				#{avatar, mode=IN, jdbcType=VARCHAR},
+				#{tier, mode=IN, jdbcType=VARCHAR},
+				#{level, mode=IN, jdbcType=VARCHAR},
+				#{rank, mode=IN, jdbcType=VARCHAR},
+				#{oprt, mode=IN, jdbcType=VARCHAR}
+			)
+		}
+	</select>
+	
+	<update id="insertUserStat" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{ call SP_OS_INS_USER_STAT
+			(
+				#{userId, mode=IN, jdbcType=INTEGER},
+				#{typeId, mode=IN, jdbcType=INTEGER},
+				#{cards, mode=IN, jdbcType=DECIMAL},
+				#{comprank, mode=IN, jdbcType=DECIMAL},
+				#{damageDone, mode=IN, jdbcType=DECIMAL},
+				#{damageDoneAverage, mode=IN, jdbcType=DECIMAL},
+				#{damageDoneMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{deaths, mode=IN, jdbcType=DECIMAL},
+				#{deathsAverage, mode=IN, jdbcType=DECIMAL},
+				#{defensiveAssists, mode=IN, jdbcType=DECIMAL},
+				#{defensiveAssistsAverage, mode=IN, jdbcType=DECIMAL},
+				#{defensiveAssistsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{eliminations, mode=IN, jdbcType=DECIMAL},
+				#{eliminationsAverage, mode=IN, jdbcType=DECIMAL},
+				#{eliminationsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{environmentalDeaths, mode=IN, jdbcType=DECIMAL},
+				#{environmentalKills, mode=IN, jdbcType=DECIMAL},
+				#{finalBlows, mode=IN, jdbcType=DECIMAL},
+				#{finalBlowsAverage, mode=IN, jdbcType=DECIMAL},
+				#{finalBlowsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{games, mode=IN, jdbcType=DECIMAL},
+				#{gamesLost, mode=IN, jdbcType=DECIMAL},
+				#{gamesPlayed, mode=IN, jdbcType=DECIMAL},
+				#{gamesTied, mode=IN, jdbcType=DECIMAL},
+				#{gamesWon, mode=IN, jdbcType=DECIMAL},
+				#{healingDone, mode=IN, jdbcType=DECIMAL},
+				#{healingDoneAverage, mode=IN, jdbcType=DECIMAL},
+				#{healingDoneMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{kpd, mode=IN, jdbcType=DECIMAL},
+				#{level, mode=IN, jdbcType=DECIMAL},
+				#{losses, mode=IN, jdbcType=DECIMAL},
+				#{medals, mode=IN, jdbcType=DECIMAL},
+				#{medalsBronze, mode=IN, jdbcType=DECIMAL},
+				#{medalsGold, mode=IN, jdbcType=DECIMAL},
+				#{medalsSilver, mode=IN, jdbcType=DECIMAL},
+				#{meleeFinalBlows, mode=IN, jdbcType=DECIMAL},
+				#{meleeFinalBlowsAverage, mode=IN, jdbcType=DECIMAL},
+				#{meleeFinalBlowsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{multikills, mode=IN, jdbcType=DECIMAL},
+				#{multikillBest, mode=IN, jdbcType=DECIMAL},
+				#{objectiveKills, mode=IN, jdbcType=DECIMAL},
+				#{objectiveKillsAverage, mode=IN, jdbcType=DECIMAL},
+				#{objectiveKillsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{objectiveTime, mode=IN, jdbcType=DECIMAL},
+				#{objectiveTimeAverage, mode=IN, jdbcType=DECIMAL},
+				#{objectiveTimeMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{offensiveAssists, mode=IN, jdbcType=DECIMAL},
+				#{offensiveAssistsAverage, mode=IN, jdbcType=DECIMAL},
+				#{offensiveAssistsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{prestige, mode=IN, jdbcType=DECIMAL},
+				#{reconAssists, mode=IN, jdbcType=DECIMAL},
+				#{reconAssistsAverage, mode=IN, jdbcType=DECIMAL},
+				#{reconAssistsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{soloKills, mode=IN, jdbcType=DECIMAL},
+				#{soloKillsAverage, mode=IN, jdbcType=DECIMAL},
+				#{soloKillsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{teleporterPadsDestroyed, mode=IN, jdbcType=DECIMAL},
+				#{ties, mode=IN, jdbcType=DECIMAL},
+				#{timePlayed, mode=IN, jdbcType=DECIMAL},
+				#{timeSpentOnFire, mode=IN, jdbcType=DECIMAL},
+				#{timeSpentOnFireAverage, mode=IN, jdbcType=DECIMAL},
+				#{timeSpentOnFireMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{wins, mode=IN, jdbcType=DECIMAL},
+				#{winRate, mode=IN, jdbcType=DECIMAL},
+				#{oprt, mode=IN, jdbcType=VARCHAR}
+			)
+		}
+	</update>
+	
+	<delete id="deleteUserStat">
+		DELETE
+		FROM 	user_stat_renew
+		WHERE	USER_ID = #{userId}
+		;
+	</delete>
+	
+	<update id="insertUserHeroes" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{ call SP_OS_INS_USER_HEROES
+			(
+				#{userId, mode=IN, jdbcType=INTEGER},
+				#{typeId, mode=IN, jdbcType=INTEGER},
+				#{heroesId, mode=IN, jdbcType=INTEGER},
+				#{timePlayed, mode=IN, jdbcType=DECIMAL},
+				#{gamesPlayed, mode=IN, jdbcType=DECIMAL},
+				#{gamesWon, mode=IN, jdbcType=DECIMAL},
+				#{gamesTied, mode=IN, jdbcType=DECIMAL},
+				#{gamesLost, mode=IN, jdbcType=DECIMAL},
+				#{objectiveTime, mode=IN, jdbcType=DECIMAL},
+				#{timeSpentOnFire, mode=IN, jdbcType=DECIMAL},
+				#{eliminations, mode=IN, jdbcType=DECIMAL},
+				#{finalBlows, mode=IN, jdbcType=DECIMAL},
+				#{soloKills, mode=IN, jdbcType=DECIMAL},
+				#{shotsFired, mode=IN, jdbcType=DECIMAL},
+				#{shotsHit, mode=IN, jdbcType=DECIMAL},
+				#{criticalHits, mode=IN, jdbcType=DECIMAL},
+				#{damageDone, mode=IN, jdbcType=DECIMAL},
+				#{damageBlocked, mode=IN, jdbcType=DECIMAL},
+				#{objectiveKills, mode=IN, jdbcType=DECIMAL},
+				#{multikills, mode=IN, jdbcType=DECIMAL},
+				#{meleeFinalBlows, mode=IN, jdbcType=DECIMAL},
+				#{criticalHitPerMinute, mode=IN, jdbcType=DECIMAL},
+				#{criticalHitAccuracy, mode=IN, jdbcType=DECIMAL},
+				#{eliminationsPerLife, mode=IN, jdbcType=DECIMAL},
+				#{weaponAccuracy, mode=IN, jdbcType=DECIMAL},
+				#{deaths, mode=IN, jdbcType=DECIMAL},
+				#{environmentalDeaths, mode=IN, jdbcType=DECIMAL},
+				#{healingDone, mode=IN, jdbcType=DECIMAL},
+				#{teleporterPadsDestroyed, mode=IN, jdbcType=DECIMAL},
+				#{turretsDestroyed, mode=IN, jdbcType=DECIMAL},
+				#{offensiveAssists, mode=IN, jdbcType=DECIMAL},
+				#{selfHealing, mode=IN, jdbcType=DECIMAL},
+				#{cards, mode=IN, jdbcType=DECIMAL},
+				#{medals, mode=IN, jdbcType=DECIMAL},
+				#{medalsGold, mode=IN, jdbcType=DECIMAL},
+				#{medalsSilver, mode=IN, jdbcType=DECIMAL},
+				#{medalsBronze, mode=IN, jdbcType=DECIMAL},
+				#{meleeFinalBlowsAverage, mode=IN, jdbcType=DECIMAL},
+				#{selfHealingAverage, mode=IN, jdbcType=DECIMAL},
+				#{offensiveAssistsAverage, mode=IN, jdbcType=DECIMAL},
+				#{deathsAverage, mode=IN, jdbcType=DECIMAL},
+				#{soloKillsAverage, mode=IN, jdbcType=DECIMAL},
+				#{objectiveTimeAverage, mode=IN, jdbcType=DECIMAL},
+				#{objectiveKillsAverage, mode=IN, jdbcType=DECIMAL},
+				#{healingDoneAverage, mode=IN, jdbcType=DECIMAL},
+				#{finalBlowsAverage, mode=IN, jdbcType=DECIMAL},
+				#{eliminationsAverage, mode=IN, jdbcType=DECIMAL},
+				#{damageDoneAverage, mode=IN, jdbcType=DECIMAL},
+				#{damageBlockedAverage, mode=IN, jdbcType=DECIMAL},
+				#{eliminationsMostInLife, mode=IN, jdbcType=DECIMAL},
+				#{damageDoneMostInLife, mode=IN, jdbcType=DECIMAL},
+				#{healingDoneMostInLife, mode=IN, jdbcType=DECIMAL},
+				#{weaponAccuracyBestInGame, mode=IN, jdbcType=DECIMAL},
+				#{killStreakBest, mode=IN, jdbcType=DECIMAL},
+				#{damageDoneMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{eliminationsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{finalBlowsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{objectiveKillsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{objectiveTimeMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{soloKillsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{offensiveAssistsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{criticalHitsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{criticalHitsMostInLife, mode=IN, jdbcType=DECIMAL},
+				#{selfHealingMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{meleeFinalBlowsMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{damageBlockedMostInGame, mode=IN, jdbcType=DECIMAL},
+				#{mostOrder, mode=IN, jdbcType=INTEGER},
+				#{stat1, mode=IN, jdbcType=DECIMAL},
+				#{stat2, mode=IN, jdbcType=DECIMAL},
+				#{stat3, mode=IN, jdbcType=DECIMAL},
+				#{stat4, mode=IN, jdbcType=DECIMAL},
+				#{stat5, mode=IN, jdbcType=DECIMAL},
+				#{stat6, mode=IN, jdbcType=DECIMAL},
+				#{stat7, mode=IN, jdbcType=DECIMAL},
+				#{stat8, mode=IN, jdbcType=DECIMAL},
+				#{stat9, mode=IN, jdbcType=DECIMAL},
+				#{stat10, mode=IN, jdbcType=DECIMAL},
+				#{stat11, mode=IN, jdbcType=DECIMAL},
+				#{stat12, mode=IN, jdbcType=DECIMAL},
+				#{stat13, mode=IN, jdbcType=DECIMAL},
+				#{stat14, mode=IN, jdbcType=DECIMAL},
+				#{stat15, mode=IN, jdbcType=DECIMAL},
+				#{stat16, mode=IN, jdbcType=DECIMAL},
+				#{stat17, mode=IN, jdbcType=DECIMAL},
+				#{stat18, mode=IN, jdbcType=DECIMAL},
+				#{stat19, mode=IN, jdbcType=DECIMAL},
+				#{stat20, mode=IN, jdbcType=DECIMAL},
+				#{oprt, mode=IN, jdbcType=VARCHAR}
+			)
+		}
+	</update>
+	
+	<delete id="deleteUserHeroes">
+		DELETE
+		FROM 	user_heroes_renew
+		WHERE	USER_ID = #{userId}
+		;
+	</delete>
+	
+	<insert id="insertSyncWlist">
+		<![CDATA[
+		INSERT INTO SYNC_WLIST(USER_ID, USER_NAME, STATUS, INS_OPRT)
+		SELECT	USER_ID userId, 
+					CONCAT(USER_NAME, "#", USER_TAG) userName,
+					'W', 'OS_SYNC_GEN'
+		FROM 	USER
+        WHERE	IS_FAKE = 0
+        AND		IFNULL(UPD_DATE, INS_DATE) < DATE_ADD(NOW(),INTERVAL -1 DAY)
+		GROUP BY USER_NAME, USER_TAG
+		ORDER BY USER_ID
+		;
+		]]>
+	</insert>
+	
+	<delete id="deleteSearchModel">
+		DELETE
+		FROM 	search
+		WHERE	USER_NAME = #{userName}
+		;
+	</delete>
+	
+	<insert id="insertSearchModel" parameterType="java.util.HashMap">
+		INSERT INTO SEARCH(USER_NAME, USER_TAG, SERVER, LEVEL, AVATAR)
+		VALUES(#{userName}, #{userTag}, #{server}, #{level}, #{avatar})
+		;
+	</insert>
+	
+</mapper>

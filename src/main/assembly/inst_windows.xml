@@ -1,0 +1,36 @@
+<assembly>
+    <id></id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+    	<!-- overscore_backend -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+            	<include>lib/**</include>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        
+        <fileSet>
+            <directory>${project.build.directory}/classes</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+            	<include>scripts/*.bat</include>
+            </includes>
+        </fileSet>
+        
+        <fileSet>
+            <directory>${project.build.directory}/classes/windows</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+            	<include>appspec.yml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

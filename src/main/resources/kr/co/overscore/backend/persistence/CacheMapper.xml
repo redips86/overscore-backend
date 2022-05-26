@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cacheMapper">
+
+	<select id="selectGameType" resultType="kr.co.overscore.backend.model.GameTypeModel">
+		SELECT	TYPE_ID typeId,
+				TYPE_ENG typeEng,
+				TYPE_KOR typeKor
+		FROM	GAME_TYPE;
+	</select>
+	
+	<select id="selectHeroesStat" resultType="kr.co.overscore.backend.model.HeroesStatModel">
+		SELECT	HEROES_ID heroesId,
+					STAT1, STAT2, STAT3, STAT4, STAT5, STAT6, STAT7, STAT8, STAT9, STAT10,
+					STAT11, STAT12, STAT13, STAT14, STAT15, STAT16, STAT17, STAT18, STAT19, STAT20
+		FROM		HEROES_STAT
+		;
+	</select>
+	
+	<select id="selectHeroes" resultType="kr.co.overscore.backend.model.HeroesModel">
+		SELECT	HEROES_ID heroesId,
+				HEROES_NAME heroesName,
+				HEROES_TYPE heroesType,
+				HEROES_ENG heroesEng,
+				HEROES_KOR heroesKor,
+				HEROES_IMG heroesImg
+		FROM	HEROES;
+	</select>
+	
+	<select id="insertHeroes" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="kr.co.overscore.backend.model.HeroesModel">
+		{ 
+			call SP_OS_INS_HEROES
+			(
+				#{heroesName, mode=IN, jdbcType=VARCHAR},
+				#{oprt, mode=IN, jdbcType=VARCHAR}
+			)
+		}
+	</select>
+	
+</mapper>

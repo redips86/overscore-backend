@@ -1,0 +1,9 @@
+version: 0.0
+os: windows
+files:
+  - source: /
+    destination: C:\overscore_deploy
+hooks:
+  AfterInstall:
+    - location: scripts/after_overscore.bat
+      timeout: 180

@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/overscore_deploy/
+hooks:
+  AfterInstall:
+    - location: scripts/after_overscore.sh
+      timeout: 180
+      runas: root
